@@ -430,6 +430,10 @@
          .contact .whatsapp-btn-container {
              text-align: center;
              margin-top: 2em;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             gap: 1em;
          }
          .contact .whatsapp-btn {
             background-color: #25D366;
@@ -441,6 +445,18 @@
              background-color: #1da851;
               transform: translateY(-3px);
          }
+
+        .contact .btn-instagram {
+            background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            color: white;
+            border: none;
+            width: auto;
+        }
+
+        .contact .btn-instagram:hover {
+            transform: translateY(-3px);
+            opacity: 0.9;
+        }
 
 
         .footer {
@@ -470,6 +486,28 @@
             transform: scale(1.2);
         }
 
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: none; /* Hidden by default */
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 1em;
+            z-index: 1001; /* Above nav links when open */
+        }
+
+        .hamburger i {
+            font-size: 1.8em;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .hamburger:hover i {
+            color: var(--accent-emerald);
+        }
+
+        /* Mobile Styles */
         @media (max-width: 768px) {
              .navbar {
                  padding: 0.8em 1.5em;
@@ -494,7 +532,52 @@
              .hero { min-height: calc(100vh - 60px); }
              #scroll-indicator { top: 59px; }
              .navbar.scrolled + #scroll-indicator { top: 49px; }
+
+             /* Show hamburger, hide nav links */
+             .hamburger {
+                 display: block;
+             }
+
+             .navbar .nav-links {
+                 display: none; /* Hide by default on mobile */
+                 flex-direction: column;
+                 position: absolute;
+                 top: 100%; /* Position right below the navbar */
+                 left: 0;
+                 width: 100%;
+                 background-color: var(--background-dark); /* Or rgba for transparency */
+                 border-top: 1px solid var(--border-color);
+                 padding: 1em 0;
+                 max-height: 0; /* Start collapsed */
+                 overflow: hidden;
+                 transition: max-height 0.5s ease-in-out;
+                 align-items: center;
+                 gap: 1em;
+             }
+
+             .navbar.open .nav-links {
+                 display: flex; /* Show when open */
+                 max-height: 500px; /* Sufficient height to show all links */
+                 backdrop-filter: blur(10px); /* Apply blur when open */
+                 -webkit-backdrop-filter: blur(10px);
+             }
+
+             .navbar .nav-links li {
+                 width: 100%;
+                 text-align: center;
+             }
+
+             .navbar .nav-links a {
+                 display: block;
+                 padding: 0.5em 0;
+                 font-size: 1.2em;
+             }
+
+             .navbar .nav-links a::after {
+                 bottom: -2px;
+             }
         }
+
          @media (max-width: 480px) {
              .navbar .brand {
                  font-size: 1.3em;
@@ -503,9 +586,7 @@
                  width: 25px;
                  height: 25px;
              }
-             .navbar .nav-links {
-                 display: none;
-             }
+             /* Nav links already hidden above 480px */
              h1 { font-size: 1.8em; }
              h2 { font-size: 1.5em; }
              section { padding: 3em 1em; }
@@ -544,6 +625,43 @@
             width: 0;
         }
 
+        /* Testimonials Section Styles */
+        #testimonials .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2em;
+        }
+
+        #testimonials .testimonial-item {
+            background-color: #262626;
+            padding: 2em;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #testimonials .testimonial-item p {
+            font-style: italic;
+            margin-bottom: 1em;
+            flex-grow: 1;
+        }
+
+        #testimonials .testimonial-item .author {
+            font-weight: bold;
+            color: var(--accent-emerald);
+            margin-top: 0.5em;
+        }
+
+        #testimonials .testimonial-item .author span {
+            font-weight: normal;
+            font-size: 0.9em;
+            color: #B0B0B0;
+        }
+
+
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -554,9 +672,13 @@
 
     <nav class="navbar">
         <a href="#hero" class="brand">Websher <img src="websher.png" alt="Hasan's Picture"></a>
+        <button class="hamburger" aria-label="Toggle navigation menu">
+            <i class="fas fa-bars"></i>
+        </button>
         <ul class="nav-links">
             <li><a href="#services">Services</a></li>
             <li><a href="#portfolio">Work</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
             <li><a href="#pricing">Pricing</a></li>
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#contact">Contact</a></li>
@@ -577,7 +699,7 @@
             <h2><u>What I Offer</u></h2>
             <div class="service-grid">
                 <div class="service-card">
-                    <h3>Love Sites</h3>
+                    <h3>Couples Gift Sites</h3>
                     <p>Custom anniversary pages with quizzes, interactive elements, personal touches, and custom music.</p>
                 </div>
                 <div class="service-card">
@@ -627,17 +749,35 @@
             </div>
         </section>
 
+        <section id="testimonials" class="animated-section">
+            <h2><u>What Clients Say</u></h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-item">
+                    <p>""Hasan made the most beautiful anniversary website for us! It felt so personal and thoughtful — my partner was genuinely surprised and loved every bit of it. Highly recommend him!"</p>
+                    <div class="author">- Aamira Zehra <span>(Happy Partner)</span></div>
+                </div>
+                <div class="testimonial-item">
+                    <p>"Needed a simple website for my small shop, and Hasan delivered quickly and affordably. Looks professional and works perfectly."</p>
+                    <div class="author">- Rayyan Sameer <span>(Shop Owner)</span></div>
+                </div>
+                <div class="testimonial-item">
+                    <p>"The study checklist website is such a game-changer! It keeps me so organized and genuinely keeps me motivated. Absolutely love it — amazing work!"</p>
+                    <div class="author">- Inaya Sulayman <span>(Student)</span></div>
+                </div>
+            </div>
+        </section>
+
         <section id="pricing" class="pricing animated-section">
             <h2><u>Pricing</u></h2>
             <div class="pricing-grid">
                 <div class="pricing-card">
-                    <h3>Love Sites</h3>
-                    <div class="price">₹400 to ₹1000</div>
+                    <h3>Couples Gift Sites</h3>
+                    <div class="price">₹500 to ₹1500+</div>
                     <p>Perfect for special occasions and heartfelt gifts.</p>
                 </div>
                 <div class="pricing-card">
                     <h3>Business Sites</h3>
-                    <div class="price">₹800 to ₹1500+</div>
+                    <div class="price">₹800 to ₹2000+</div>
                     <p>Get a clean, professional online presence for your business.</p>
                 </div>
             </div>
@@ -653,7 +793,7 @@
                 </div>
                 <div class="faq-item">
                     <h3 class="faq-question">How do I pay?</h3>
-                    <p class="faq-answer">I accept payments via UPI (like Google Pay, PhonePe, Paytm). Payment is usually split: a small deposit to start, and the rest upon completion.</p>
+                    <p class="faq-answer">I accept payments via UPI (like Google Pay, PhonePe, Paytm, Paypal). Payment is usually split: a small deposit to start, and the rest upon completion.</p>
                 </div>
                 <div class="faq-item">
                     <h3 class="faq-question">What do I need to give you?</h3>
@@ -682,6 +822,8 @@
             <div class="whatsapp-btn-container">
                  <p style="margin-bottom: 1em;">Prefer to chat directly?</p>
                  <a href="https://wa.me/9704909382?text=Hello%20Hasan%2C%20I%20have%20a%20project%20idea..." class="btn whatsapp-btn" target="_blank">Message Me on WhatsApp</a>
+                 <p>OR</p>
+                 <a href="https://ig.me/m/websherr" class="btn btn-instagram" target="_blank">Message Me on Instagram</a>
             </div>
         </section>
     </main>
@@ -772,9 +914,16 @@
 
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
+                const navbar = document.querySelector('.navbar');
+
+                // Close the mobile menu if it's open
+                if (navbar.classList.contains('open')) {
+                    navbar.classList.remove('open');
+                }
+
 
                 if (targetElement) {
-                     const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                     const navbarHeight = navbar.offsetHeight; // Get current navbar height
                      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navbarHeight;
 
                      window.scrollTo({
@@ -856,6 +1005,19 @@
         console.log("YOUR_WHATSAPP_NUMBER in the WhatsApp link hrefs");
         console.log("YOUR_INSTAGRAM_LINK in the Instagram link href");
         console.log("Replace placeholder images (via.placeholder.com) with actual project screenshots.");
+
+
+        // Hamburger menu functionality
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navbar.classList.toggle('open');
+        });
+
+        // Close menu when a link is clicked (handled by the smooth scroll logic above)
+        // The smooth scroll logic already checks if the menu is open and closes it.
+
     </script>
 </body>
 </html>
