@@ -71,7 +71,7 @@
             background: radial-gradient(circle, rgba(106, 90, 205, 0.15) 0%, transparent 70%); /* Changed rgba value */
             transform: translate(-50%, -50%);
             z-index: -1;
-            transition: left 0.1s ease-out, top 0.1s ease-out;
+            /* Removed transition property */
         }
 
 
@@ -916,14 +916,13 @@
                 const targetElement = document.querySelector(targetId);
                 const navbar = document.querySelector('.navbar');
 
-                // Close the mobile menu if it's open
                 if (navbar.classList.contains('open')) {
                     navbar.classList.remove('open');
                 }
 
 
                 if (targetElement) {
-                     const navbarHeight = navbar.offsetHeight; // Get current navbar height
+                     const navbarHeight = navbar.offsetHeight;
                      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navbarHeight;
 
                      window.scrollTo({
@@ -994,10 +993,28 @@
         });
 
         const mouseGlow = document.getElementById('mouse-glow');
+        let targetX = 0;
+        let targetY = 0;
+        let currentX = 0;
+        let currentY = 0;
+        const easingFactor = 0.15;
+
         document.addEventListener('mousemove', (e) => {
-            mouseGlow.style.left = e.clientX + 'px';
-            mouseGlow.style.top = e.clientY + 'px';
+            targetX = e.clientX;
+            targetY = e.clientY;
         });
+
+        function animateGlow() {
+            currentX += (targetX - currentX) * easingFactor;
+            currentY += (targetY - currentY) * easingFactor;
+
+            mouseGlow.style.left = currentX + 'px';
+            mouseGlow.style.top = currentY + 'px';
+
+            requestAnimationFrame(animateGlow);
+        }
+
+        animateGlow();
 
 
         console.log("Remember to replace placeholders:");
@@ -1007,7 +1024,6 @@
         console.log("Replace placeholder images (via.placeholder.com) with actual project screenshots.");
 
 
-        // Hamburger menu functionality
         const hamburger = document.querySelector('.hamburger');
         const navLinks = document.querySelector('.nav-links');
 
@@ -1015,8 +1031,6 @@
             navbar.classList.toggle('open');
         });
 
-        // Close menu when a link is clicked (handled by the smooth scroll logic above)
-        // The smooth scroll logic already checks if the menu is open and closes it.
 
     </script>
 </body>
