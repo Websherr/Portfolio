@@ -332,7 +332,14 @@
             height: auto;
             border-radius: 8px;
             border: 1px solid var(--border-color);
+            cursor: pointer; /* Add cursor pointer */
+            transition: transform 0.2s ease; /* Add transition for hover effect */
         }
+
+        .portfolio .portfolio-item img:hover {
+            transform: scale(1.02); /* Add slight scale on hover */
+        }
+
          .portfolio .portfolio-item .item-content {
              flex: 1;
          }
@@ -880,7 +887,324 @@
                  font-size: 0.9em;
              }
         }
+
+        /* Lightbox Styles */
+        .lightbox {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 10000; /* High z-index to be on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9); /* Semi-transparent black background */
+            backdrop-filter: blur(8px); /* Blur effect */
+            -webkit-backdrop-filter: blur(8px); /* Safari support */
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.visible {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            display: block;
+            max-width: 90%; /* Max width relative to viewport */
+            max-height: 90%; /* Max height relative to viewport */
+            object-fit: contain; /* Ensure image fits without distortion */
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            border-radius: 8px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            z-index: 10001; /* Above the image */
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Prevent body scroll when lightbox is open */
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            .close-btn {
+                top: 10px;
+                right: 20px;
+                font-size: 30px;
+            }
+             .lightbox-content {
+                 max-width: 95%;
+                 max-height: 95%;
+             }
+        }
+
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="mouse-glow"></div>
+    <div id="scroll-indicator"></div>
+
+    <nav class="navbar">
+        <a href="#hero" class="brand">Websher <img src="websher.png" alt="Hasan's Picture"></a>
+        <button class="hamburger" aria-label="Toggle navigation menu">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Work</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="hero" class="hero">
+            <h1><span class="typewriter-text"></span></h1>
+            <p>I build beautiful, functional websites for small businesses, couples, and students. I’m 16 — and I take my craft seriously.</p>
+            <div class="cta-buttons">
+                <a href="#portfolio" class="btn btn-primary">View My Work</a>
+                <a href="#contact" class="btn btn-secondary">Start a Project</a>
+            </div>
+        </section>
+
+        <section id="services" class="services animated-section">
+            <h2><u>What I Offer</u></h2>
+            <div class="service-grid">
+                <div class="service-card">
+                    <h3>Couples Gift Sites</h3>
+                    <p>Custom anniversary pages with quizzes, interactive elements, personal touches, and custom music.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Business Sites</h3>
+                    <p>Clean, responsive and modern websites designed for small businesses, including WhatsApp or chat integration.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Study Sites</h3>
+                    <p>Motivational tools, checklists, and personalized tracking pages designed to help students stay organized.</p>
+                </div>
+            </div>
+             <p>Every project is made from scratch — no boring templates.</p>
+        </section>
+
+        <section id="why-choose-me" class="animated-section">
+            <h2><u>Why Choose Me?</u></h2>
+            <div class="points">
+                <p>I’m <b>16</b> and already better than half of Fiverr 💔</p>
+                <p>No templates. No BS. Only clean code.</p>
+            </div>
+        </section>
+
+        <section id="portfolio" class="portfolio animated-section">
+            <h2><u>My Work Demonstrations</u></h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <img src="anniversary.png" alt="Anniversary Quiz Website Screenshot">
+                    <div class="item-content">
+                        <h3>Anniversary Demo Website</h3>
+                        <p>A heartfelt site with effects, custom music, and personalized content. <i>(This was made as a demo in 30 mins, expect your website to look way better)</i></p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="tuition.png" alt="Tuition Demo Site Screenshot">
+                    <div class="item-content">
+                        <h3>Tuition Demo Site</h3>
+                        <p>A clean landing page for a tuition center with a working contact form and smooth transitions. <i>(This was made as a demo in 30 mins, expect your website to look way better)</i></p>
+                    </div>
+                </div>
+                 <div class="portfolio-item">
+                    <img src="student.png" alt="Student Checklist Site Screenshot">
+                    <div class="item-content">
+                        <h3>Student Checklist Demo Site</h3>
+                        <p>A simple, engaging tool for students featuring customizable checklists. <i>(This was made as a demo in 30 mins, expect your website to look way better)</i></p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="item-content">
+                        <h3>This Portfolio Website you're seeing!</h3>
+                        <p><b>I</b> built entirely from scratch using clean HTML, CSS, and JavaScript, this site serves as a live demonstration of my coding skills and design capabilities.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="animated-section">
+            <h2><u>What Clients Say</u></h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-item">
+                    <p>"Hasan made the most beautiful anniversary website for us! It felt so personal and thoughtful — my partner was genuinely surprised and loved every bit of it. Highly recommend him!"</p>
+                    <div class="author">- Aamira Zehra <span>(Happy Partner)</span></div>
+                </div>
+                <div class="testimonial-item">
+                    <p>"Needed a simple website for my small shop, and Hasan delivered quickly and affordably. Looks professional and works perfectly."</p>
+                    <div class="author">- Rayyan Sameer <span>(Shop Owner)</span></div>
+                </div>
+                <div class="testimonial-item">
+                    <p>"The study checklist website is such a game-changer! It keeps me so organized and genuinely keeps me motivated. Absolutely love it — amazing work!"</p>
+                    <div class="author">- Inaya Sulayman <span>(Student)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="pricing animated-section">
+            <h2><u>Pricing</u></h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Couples Gift Sites</h3>
+                    <div class="price"><span id="couple-price"></span></div>
+                    <p>Perfect for special occasions and heartfelt gifts.</p>
+                </div>
+                <div class="pricing-card">
+                    <h3>Business Sites</h3>
+                    <div class="price"><span id="business-price"></span></div>
+                    <p>Get a clean, professional online presence for your business.</p>
+                </div>
+            </div>
+            <p>Prices depend on the project — just tell me what you need.</p>
+        </section>
+
+        <section id="faq" class="animated-section">
+            <h2><u>FAQ</u></h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <h3 class="faq-question">How long does it take?</h3>
+                    <p class="faq-answer">Typically, a simple website takes 1-3 days, while more complex projects might take up to a week. I'll give you a clear timeline upfront.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">How do I pay?</h3>
+                    <p class="faq-answer">I accept payments via UPI (like Google Pay, PhonePe, Paytm, Paypal). Payment is usually split: a small deposit to start, and the rest upon completion.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">What do I need to give you?</h3>
+                    <p class="faq-answer">I'll need the content (text, images, videos) you want on the site, any specific design ideas you have, and details about the features you need (like a contact form, WhatsApp button, etc.).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact animated-section">
+            <h2><u>Get In Touch</u></h2>
+            <div class="contact-options">
+                 <p>Ready to start your project? Reach out directly!</p>
+                 <a href="https://wa.me/9704909382?text=Hello%20Hasan%2C%20I%20have%20a%20project%20idea..." class="btn whatsapp-btn" target="_blank">
+                     <i class="fab fa-whatsapp"></i> Message Me on WhatsApp
+                 </a>
+                 <p>OR</p>
+                 <a href="https://ig.me/m/websherr" class="btn btn-instagram" target="_blank">
+                     <i class="fab fa-instagram"></i> Message Me on Instagram
+                 </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer animated-section">
+        <p>Let’s build something amazing — even if you’re on a budget.</p>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/websherr/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/9704909382" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/9704909382?text=Hey%20Hasan!%20I%20need%20a%20website%20%F0%9F%91%80" id="live-chat-btn" target="_blank" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <style>
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5em;
+        }
+
+        .faq-item {
+            background-color: rgba(38, 38, 38, 0.6); /* Tempered glass background */
+            backdrop-filter: blur(10px); /* Tempered glass blur */
+            -webkit-backdrop-filter: blur(10px); /* Safari support */
+            padding: 1.5em;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .faq-item h3 {
+            color: var(--accent-emerald);
+            margin-bottom: 0.5em;
+            font-size: 1.3em;
+        }
+
+        .faq-item p {
+            color: var(--text-light);
+            font-size: 1em;
+        }
+
+        #live-chat-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        #live-chat-btn:hover {
+            background-color: #1da851;
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            #live-chat-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.8em;
+                bottom: 15px;
+                right: 15px;
+            }
+             .faq-item h3 {
+                 font-size: 1.1em;
+             }
+             .faq-item p {
+                 font-size: 0.9em;
+             }
+        }
+    </style>
+
+    <!-- Lightbox HTML -->
+    <div id="myLightbox" class="lightbox">
+      <span class="close-btn">×</span>
+      <img class="lightbox-content" id="lightboxImg" src="" alt="Portfolio Screenshot">
+    </div>
+
 
     <script>
          document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1051,6 +1375,43 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 });
+    </script>
+    <script>
+        // Lightbox functionality
+        const portfolioImages = document.querySelectorAll('.portfolio-item img');
+        const lightbox = document.getElementById('myLightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const closeBtn = document.querySelector('.lightbox .close-btn');
+        const body = document.body;
+
+        portfolioImages.forEach(img => {
+            img.addEventListener('click', () => {
+                lightbox.classList.add('visible');
+                lightboxImg.src = img.src;
+                body.classList.add('no-scroll'); // Prevent body scroll
+            });
+        });
+
+        const closeLightbox = () => {
+            lightbox.classList.remove('visible');
+            body.classList.remove('no-scroll'); // Re-enable body scroll
+        };
+
+        closeBtn.addEventListener('click', closeLightbox);
+
+        // Close lightbox when clicking outside the image
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox || e.target === lightboxImg) {
+                closeLightbox();
+            }
+        });
+
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('visible')) {
+                closeLightbox();
+            }
+        });
     </script>
 </body>
 </html>
