@@ -756,12 +756,12 @@
             <div class="pricing-grid">
                 <div class="pricing-card">
                     <h3>Couples Gift Sites</h3>
-                    <div class="price">₹500 to ₹1500+</div>
+                    <div class="price"><span id="couple-price"></span></div>
                     <p>Perfect for special occasions and heartfelt gifts.</p>
                 </div>
                 <div class="pricing-card">
                     <h3>Business Sites</h3>
-                    <div class="price">₹800 to ₹2000+</div>
+                    <div class="price"><span id="business-price"></span></div>
                     <p>Get a clean, professional online presence for your business.</p>
                 </div>
             </div>
@@ -803,7 +803,6 @@
 
     <footer class="footer animated-section">
         <p>Let’s build something amazing — even if you’re on a budget.</p>
-        <p>Detected Currency: <span id="currency"></span></p>
         <div class="social-icons">
             <a href="https://www.instagram.com/websherr/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             <a href="https://wa.me/9704909382" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
@@ -943,48 +942,6 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             type();
-
-            const currencySpan = document.getElementById('currency');
-
-            if (currencySpan) {
-                fetch('https://ipapi.co/json/')
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        const countryCode = data.country_code;
-                        const isInEU = data.in_eu;
-                        let currency = '$ USD';
-
-                        if (countryCode === 'IN') {
-                            currency = '₹ INR';
-                        } else if (countryCode === 'GB') {
-                            currency = '£ GBP';
-                        } else if (countryCode === 'CA') {
-                            currency = '$ CAD';
-                        } else if (countryCode === 'AU') {
-                            currency = '$ AUD';
-                        } else if (countryCode === 'JP') {
-                            currency = '¥ JPY';
-                        } else if (countryCode === 'CN') {
-                            currency = '¥ CNY';
-                        } else if (countryCode === 'KR') {
-                            currency = '₩ KRW';
-                        } else if (isInEU) {
-                            currency = '€ EUR';
-                        }
-
-                        currencySpan.textContent = currency;
-
-                    })
-                    .catch(error => {
-                        console.error('Error fetching location data:', error);
-                        currencySpan.textContent = '$ USD';
-                    });
-            }
         });
 
 
@@ -1046,6 +1003,54 @@
         });
 
 
+    </script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const couplePriceSpan = document.getElementById('couple-price');
+    const businessPriceSpan = document.getElementById('business-price');
+
+    const priceData = {
+        'IN': { symbol: '₹', couple: '500 - 2000+', business: '1500 - 4000+' },
+        'US': { symbol: '$', couple: '5 - 20+', business: '15 - 50+' },
+        'CA': { symbol: '$', couple: '7 - 25+', business: '20 - 60+' },
+        'GB': { symbol: '£', couple: '4 - 18+', business: '12 - 45+' },
+        'EU': { symbol: '€', couple: '5 - 20+', business: '15 - 50+' },
+        'AU': { symbol: '$', couple: '8 - 30+', business: '22 - 65+' },
+        'DEFAULT': { symbol: '$', couple: '5 - 20+', business: '15 - 50+' }
+    };
+
+    const euCountries = ['AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'EL', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'];
+
+    fetch('https://ipapi.co/json/')
+        .then(response => response.json())
+        .then(data => {
+            let countryCode = data.country_code;
+            let currencyInfo = priceData.DEFAULT;
+
+            if (priceData[countryCode]) {
+                currencyInfo = priceData[countryCode];
+            } else if (euCountries.includes(countryCode)) {
+                currencyInfo = priceData['EU'];
+            }
+
+            if (couplePriceSpan) {
+                couplePriceSpan.textContent = `${currencyInfo.symbol}${currencyInfo.couple}`;
+            }
+            if (businessPriceSpan) {
+                businessPriceSpan.textContent = `${currencyInfo.symbol}${currencyInfo.business}`;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching IP data:', error);
+            let currencyInfo = priceData.DEFAULT;
+             if (couplePriceSpan) {
+                couplePriceSpan.textContent = `${currencyInfo.symbol}${currencyInfo.couple}`;
+            }
+            if (businessPriceSpan) {
+                businessPriceSpan.textContent = `${currencyInfo.symbol}${currencyInfo.business}`;
+            }
+        });
+});
     </script>
 </body>
 </html>
