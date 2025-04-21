@@ -803,6 +803,7 @@
 
     <footer class="footer animated-section">
         <p>Let’s build something amazing — even if you’re on a budget.</p>
+        <p>Detected Currency: <span id="currency"></span></p>
         <div class="social-icons">
             <a href="https://www.instagram.com/websherr/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             <a href="https://wa.me/9704909382" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
@@ -942,6 +943,48 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             type();
+
+            const currencySpan = document.getElementById('currency');
+
+            if (currencySpan) {
+                fetch('https://ipapi.co/json/')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const countryCode = data.country_code;
+                        const isInEU = data.in_eu;
+                        let currency = '$ USD';
+
+                        if (countryCode === 'IN') {
+                            currency = '₹ INR';
+                        } else if (countryCode === 'GB') {
+                            currency = '£ GBP';
+                        } else if (countryCode === 'CA') {
+                            currency = '$ CAD';
+                        } else if (countryCode === 'AU') {
+                            currency = '$ AUD';
+                        } else if (countryCode === 'JP') {
+                            currency = '¥ JPY';
+                        } else if (countryCode === 'CN') {
+                            currency = '¥ CNY';
+                        } else if (countryCode === 'KR') {
+                            currency = '₩ KRW';
+                        } else if (isInEU) {
+                            currency = '€ EUR';
+                        }
+
+                        currencySpan.textContent = currency;
+
+                    })
+                    .catch(error => {
+                        console.error('Error fetching location data:', error);
+                        currencySpan.textContent = '$ USD';
+                    });
+            }
         });
 
 
