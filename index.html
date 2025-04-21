@@ -391,63 +391,32 @@
              font-size: 1.2em;
         }
 
-        .contact form {
+        /* Updated Contact Section Styles */
+        .contact .contact-options {
             max-width: 600px;
             margin: 0 auto;
-            display: grid;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 1.5em;
+            text-align: center;
         }
 
-        .contact label {
-            display: block;
-            margin-bottom: 0.5em;
-            font-weight: bold;
-            color: var(--accent-emerald);
-        }
-
-        .contact input,
-        .contact textarea {
-            width: 100%;
-            padding: 1em;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            background-color: rgba(38, 38, 38, 0.6); /* Tempered glass background */
-            backdrop-filter: blur(5px); /* Slightly less blur for inputs */
-            -webkit-backdrop-filter: blur(5px); /* Safari support */
-            color: var(--text-light);
-            font-family: 'Inter', sans-serif;
-            font-size: 1em;
-            transition: border-color 0.3s ease;
-        }
-
-         .contact input:focus,
-         .contact textarea:focus {
-             outline: none;
-             border-color: var(--accent-emerald);
+         .contact .contact-options p {
+             font-size: 1.2em;
+             margin-bottom: 0.5em;
          }
 
-        .contact textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .contact button[type="submit"] {
-            width: 100%;
-            margin-top: 1em;
-        }
-         .contact .whatsapp-btn-container {
-             text-align: center;
-             margin-top: 2em;
-             display: flex;
-             flex-direction: column;
-             align-items: center;
-             gap: 1em;
+         .contact .whatsapp-btn,
+         .contact .btn-instagram {
+            width: auto;
+            min-width: 200px;
          }
+
          .contact .whatsapp-btn {
             background-color: #25D366;
             color: white;
             border: none;
-            width: auto;
          }
          .contact .whatsapp-btn:hover {
              background-color: #1da851;
@@ -458,7 +427,6 @@
             background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
             color: white;
             border: none;
-            width: auto;
         }
 
         .contact .btn-instagram:hover {
@@ -820,26 +788,15 @@
 
         <section id="contact" class="contact animated-section">
             <h2><u>Get In Touch</u></h2>
-            <form action="YOUR_FORM_SUBMISSION_ENDPOINT" method="POST">
-                <div>
-                    <label for="name">Your Name</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div>
-                    <label for="idea">Your Project Idea</label>
-                    <textarea id="idea" name="idea" required></textarea>
-                </div>
-                <div>
-                    <label for="contact-info">WhatsApp Number or Email</label>
-                    <input type="text" id="contact-info" name="contact-info" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Send Message</button>
-            </form>
-            <div class="whatsapp-btn-container">
-                 <p style="margin-bottom: 1em;">Prefer to chat directly?</p>
-                 <a href="https://wa.me/9704909382?text=Hello%20Hasan%2C%20I%20have%20a%20project%20idea..." class="btn whatsapp-btn" target="_blank">Message Me on WhatsApp</a>
+            <div class="contact-options">
+                 <p>Ready to start your project? Reach out directly!</p>
+                 <a href="https://wa.me/9704909382?text=Hello%20Hasan%2C%20I%20have%20a%20project%20idea..." class="btn whatsapp-btn" target="_blank">
+                     <i class="fab fa-whatsapp"></i> Message Me on WhatsApp
+                 </a>
                  <p>OR</p>
-                 <a href="https://ig.me/m/websherr" class="btn btn-instagram" target="_blank">Message Me on Instagram</a>
+                 <a href="https://ig.me/m/websherr" class="btn btn-instagram" target="_blank">
+                     <i class="fab fa-instagram"></i> Message Me on Instagram
+                 </a>
             </div>
         </section>
     </main>
@@ -1035,11 +992,7 @@
         animateGlow();
 
 
-        console.log("Remember to replace placeholders:");
-        console.log("YOUR_FORM_SUBMISSION_ENDPOINT in the contact form action");
-        console.log("YOUR_WHATSAPP_NUMBER in the WhatsApp link hrefs");
-        console.log("YOUR_INSTAGRAM_LINK in the Instagram link href");
-        console.log("Replace placeholder images (via.placeholder.com) with actual project screenshots.");
+        console.log("Remember to replace placeholder images (via.placeholder.com) with actual project screenshots.");
 
 
         const hamburger = document.querySelector('.hamburger');
